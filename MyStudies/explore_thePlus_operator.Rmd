@@ -1,0 +1,80 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+   df_print: paged
+   toc: true
+   toc_depth: 3
+   toc_float: false
+editor_options:
+  chunk_output_type: console
+---
+
+目的：探索R中重载`+`操作符的对于具有继承关系类的区别。
+
+我知道对于没有继承关系的类，它是有一个作用机制的，那么对于有继承关系的类是怎么样的呢？举个具体的例子：
+
+```{r}
+foo1 <- structure(.Data = 1, class = "foo")
+foo2 <- structure(.Data = 1, class = "foo")
+bar1 <- structure(.Data = 2, class = c("bar",'foo'))
+# 对于这三个类的实例，如果我实现了两个+的方法，那么结果是什么呢？
+##首先为实现foo
+`+.foo` <- function(e1, e2) message("foo!")
+## 然后实现bar
+## 注意 R中实现一个泛型方法就是 方法名.类名
+`+.bar` <- function(e1, e2) {
+  NextMethod();
+  message( "bar?")
+} 
+```
+
+```{r collapse=FALSE}
+foo1 + foo2
+foo1 + bar1
+bar1 + foo1
+```
+
+当然直接这样运行会出错。
+
+## 方法一
+
+```{r}
+`+.foo` <- function(e1, e2) message("foo!")
+## 让bar类也实现 `+.foo` 方法
+`+.bar` <- `+.foo`
+```
+
+
+```{r collapse=FALSE}
+foo1 + foo2
+foo1 + bar1
+bar1 + foo1
+```
+
+
+## 解决方法
+
+索性直接就实现一个就好了。
+
+哎，反而实在是太麻烦了。
+
+```{r eval=FALSE}
+`+.foo` <- function(e1, e2) {
+  if (isa(e1, 'foo')) {
+    if (isa(e2, 'foo')) {
+      
+    } else {
+      
+    }
+  } else {
+    if (isa(e1, 'foo')) {
+      
+    } else {
+      
+    }
+  }
+}
+## 让bar类也实现 `+.foo` 方法
+`+.bar` <- `+.foo`
+```
