@@ -26,7 +26,7 @@ config_ensureMemory <- function() {
 get_vec_element_counts <- function(vec) {
   aTable <- base::table(vec)
   tibble::tibble(name = names(aTable), count = aTable %>% as.integer()) %>%
-    arrange(desc(count))
+    dplyr::arrange(dplyr::desc(count))
 }
 
 #' Put string vector elements to string.

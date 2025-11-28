@@ -7,7 +7,6 @@ storage_file_path <- file.path(Sys.getenv("HOME"), ".tryR.package.vars.rds")
 .onLoad <- function(libname, pkgname) {
   # message("The libname is ", libname, ". The pkgname is ", pkgname)
   # message("This package is for YDL personal use...")
-  getGlobalVars();
 }
 
 
@@ -26,6 +25,8 @@ storage_file_path <- file.path(Sys.getenv("HOME"), ".tryR.package.vars.rds")
 #' setGlobalVars(NULL); # Just for storage
 #' setGlobalVars( list( tmpFile= 'path', hgnc_complete_genes_path = '/your/path/file.txt') )
 setGlobalVars <- function(varList) {
+  tryRGlobalVars <- getGlobalVars();
+
   if (rlang::is_empty(varList)) {
     saveRDS(tryRGlobalVars, file = storage_file_path);
   }

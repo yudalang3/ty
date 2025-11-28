@@ -1,3 +1,18 @@
+###############################################################
+########### Background Knowledge ########################
+###############################################################
+# In R, missing values are represented by NA (Not Available), which indicates that the value is undefined or missing.
+# Inf represents infinity, which can occur in mathematical operations that exceed the limits of numerical representation.
+# NaN stands for "Not a Number" and is used to represent undefined or unrepresentable numerical results, such as 0/0.
+# NULL represents the absence of a value or an empty object.
+# An empty string ("") is a string that contains no characters.
+# NA has NA_integer, NA_character, NA_real, NA_complex types. While in Java and Python, NA is usually represented as None or null.
+# NULL only one
+# Inf is usually used in numerical calculations.
+# NaN is usually used in numerical calculations.
+# Empty string is usually used in text data.
+
+
 #' Check any NA values in the data.frame
 #'
 #' @param df support input automic vector, matrix and data.frame
